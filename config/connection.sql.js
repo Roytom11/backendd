@@ -19,7 +19,7 @@ const userSettings = {
 
 const database = mysql.createConnection(userSettings)
 
-//creando una funcion que puede retornar promesas en base a otra funcion que maneja callbacks
+//funcion que puede retornar promesas en base a otra funcion que maneja callbacks
 const query = util.promisify(database.query).bind(database)
 
 
