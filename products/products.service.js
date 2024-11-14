@@ -1,4 +1,35 @@
 const { validacionEmail, validacionExistencia } = require("../helpers/validation.helper")
+const { insertarProducto } = require("./products.repository")
+const { validarPropiedadesProducto } = require("./utils/validarProducto")
+
+
+const crearProducto = async (producto) => {
+    try{
+        console.log(producto)
+       const paso = validarPropiedadesProducto(producto)
+       if (paso) {
+        const resultado = await insertarProducto(producto)
+
+        return {ok:true,message:`Producto ${producto.titulo} registrado correctamente`, producto:producto}
+       }
+       else {
+        throw {status:400, message: 'Exeption: No se pasaron las validaciones del producto'}
+       }
+    }
+    catch(error) {
+        if(error.status){
+                throw error
+        }
+        else{
+            throw {status: 500, message: 'Error interno del servidor service de insertar'}
+        }
+    }
+
+}
+
+module.exports = {crearProducto}
+
+
 
 const validarIngresoProducto = (valor) => {
     const propiedades = [valor.titulo, valor.descripcion, valor.codigo, valor.titulo, valor.precio, valor.stock]
@@ -10,29 +41,35 @@ const validarIngresoProducto = (valor) => {
     }
 }
 
-const validacionString = (valor) => {
-    return(typeof valor === 'string' && valor.length>3)
-}
 
-const validacionLongitud = (valor) => {
-    return(typeof valor === 'string' && valor.length>20)
-}
-
-const validacionStock = (valor) => {
-    return(typeof valor === 'number' && valor>=1)
-}
-
-const validacionCodigo = (valor) => {
-    return(typeof valor === 'string' && valor.length>1)
-}
-
-const validacionFecha = (valor) => {
-    return(typeof valor === 'string' && !/fecha/i.test(valor));
-}
-
-
-const validacionPassword = (valor1, valor2) => {
-    return(typeof valor1 === 'string' && valor1.length>5 && valor1 === valor2)
-}
 
 module.exports = {validacionEmail, validacionExistencia, validacionString, validacionLongitud, validacionStock, validacionCodigo, validacionFecha, validarIngresoProducto, validacionPassword}
+
+
+
+
+        // const {descripcion, titulo, precio, stock, codigo} = producto
+        // console.log(producto)
+        // validacionProducto({descripcion, titulo, precio, stock, codigo})
+        // const verificarTitulo = await validacionString(producto.titulo)
+        // console.log(producto.titulo)
+        // if(!verificarTitulo){
+        //     throw {message: 'Title incorrect, The title must be string and must be more than 3 characters', status: 400}
+        // }
+        // const verificarStock = await validacionStock(producto.stock)
+        // if(!verificarStock){
+        //     throw {message: 'Stock incorrect, The title must be numeric and must be more than 1 characters', status: 400}
+        // }
+        // const verificarLongitud = await validacionLongitud(producto.descripcion)
+        // if(!verificarLongitud){
+        //     throw {message: 'Description incorrect, must be more than 20 characters', status: 400}
+        // }
+        // const verificarCodigo = await validacionCodigo(producto.codigo)
+        // if(!verificarCodigo){
+        //     throw {message: 'Code incorrect, must be more than 1 characters', status: 400}
+        // }
+        // const verificarFecha = await validacionFecha(producto.fecha)
+        // if(!verificarFecha){
+        //     throw {message: 'Date incorrect, must be more than 1 characters', status: 400}
+        // }
+        // return {ok:true, message: `Producto ${producto.titulo} registrado correctamente`}
