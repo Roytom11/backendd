@@ -1,5 +1,5 @@
 const { validacionEmail, validacionExistencia } = require("../helpers/validation.helper")
-const { insertarProducto } = require("./products.repository")
+const { insertarProducto, seleccionarProductoPorId } = require("./products.repository")
 const { validarPropiedadesProducto } = require("./utils/validarProducto")
 
 
@@ -10,7 +10,7 @@ const crearProducto = async (producto) => {
        if (paso) {
         const resultado = await insertarProducto(producto)
 
-        return {ok:true,message:`Producto ${producto.titulo} registrado correctamente`, producto:producto}
+        return {ok:true,message:`Producto creado con id ${idCreado} `, idCreado:idCreado}
        }
        else {
         throw {status:400, message: 'Exeption: No se pasaron las validaciones del producto'}
@@ -27,7 +27,40 @@ const crearProducto = async (producto) => {
 
 }
 
-module.exports = {crearProducto}
+
+const obtenerProductoPorId = async (pid) => {
+    try {
+        const producto = await seleccionarProductoPorId(pid)
+        return {ok: true, status:200, producto}
+
+    }
+    catch(error){
+        if(error.status){
+            throw error
+        }
+        else{
+            throw {status:500, message: 'Error interno del servidor'}
+        }
+    }
+
+}
+
+const buscarProductos = async () => {
+    try {
+        const productos = await seleccionarProductoPorId ()
+        if(productos.length === 0){
+            throw {status:404, message: 'No hay productos'}
+        }
+        return{status:200, message:'Error interno del servidor'}
+    }
+    catch(error){
+        throw error
+    }
+}
+    
+
+
+module.exports = {crearProducto, obtenerProductoPorId, buscarProductos}
 
 
 
