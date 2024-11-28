@@ -5,7 +5,8 @@ dotenv.config()
 
 const {database} = require('./config/connection.sql')
 
-const { authRouter } = require('./auth/utils/auth.route')
+const { authRouter } = require('./auth/auth.route')
+const { productRouter } = require('./products/products.router')
 
 
 
@@ -15,6 +16,7 @@ app.use(express.json())
 
 app.use(cors())
 app.use('/api/auth', authRouter)
+app.use('/api/product', productRouter)
 
 app.listen(PORT, () =>{
     console.log('Nuestra aplicacion se ejecuta en el puerto: ' + PORT)

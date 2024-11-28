@@ -76,7 +76,8 @@ const validarIngresoProducto = (valor) => {
 
 
 
-module.exports = {validacionEmail, validacionExistencia, validacionString, validacionLongitud, validacionStock, validacionCodigo, validacionFecha, validarIngresoProducto, validacionPassword}
+module.exports = {validacionEmail, validacionExistencia, validarIngresoProducto }
+ //,validacionString, validacionLongitud, validacionStock, validacionCodigo, validacionFecha,  validacionPassword}
 
 
 

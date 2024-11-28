@@ -1,4 +1,4 @@
-const { database, query } = require("./config/connection.sql.js")
+const { database, query } = require('../config/connection.sql')
 const bcrypt = require('bcrypt')
 
 const buscarUsuarioPorEmail = async (email) => {
@@ -36,7 +36,7 @@ const insertarUsuario = async (usuario) => {
     }
     }
 
-test({email: 'pepe@gmail.com', password: 'pepe123'})
+//test({email: 'pepe@gmail.com', password: 'pepe123'})
 
 
 module.export = {buscarUsuarioPorEmail, insertarUsuario}
